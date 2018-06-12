@@ -163,12 +163,13 @@ bool processRequest(VRequest& request, L1List<VRecord>& recList, void* pGData) {
             y = recList.at(i).y;
         }
         for(i++; i < recList.getSize(); i++){
-            if(req.substr(3,req.length() - 3) == recList.at(i).id){
-                x = recList.at(i).x;
-                y = recList.at(i).y;
+            if(req.substr(3,req.length() - 3) == recList.at(i).id && (x == recList.at(i).x || y == recList.at(i).y)){
+                t = 1;
+                break;
             }
         }
-        cout<<t<<endl;
+        if(t == 1) cout<<"("<<recList.at(i).x<<" "<<recList.at(i).y<<")"<<endl;
+        else cout<<req<<": Failed"<<endl;
     }
     if(req == "CNR"){
         cout<<recList.getSize()<<endl;
