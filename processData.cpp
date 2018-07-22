@@ -39,20 +39,20 @@ bool processRequest(VRequest& request, L1List<VRecord>& recList, void* pGData) {
                 p->push_back(tmp);
             }
         }
-        cout<<p->getSize()<<endl;
+        cout<<req<<": "<<p->getSize()<<endl;
     }
     if(req == "VFF"){
-        cout<<recList.at(0).id<<endl;
+        cout<<req<<": "<<recList.at(0).id<<endl;
     }
     if(req == "VFL"){
-        cout<<recList.at(recList.getSize() - 1).id<<endl;
+        cout<<req<<": "<<recList.at(recList.getSize() - 1).id<<endl;
     }
     if(req.substr(0,3) == "VFY"){
         int i = 0;
         while(i < recList.getSize() && req.substr(3,req.length() - 3) != recList.at(i).id){
             i++;
         }
-        if(i != recList.getSize()) cout<<recList.at(i).y<<endl;
+        if(i != recList.getSize()) cout<<req<<": "<<recList.at(i).y<<endl;
         else cout<<req<<": Failed"<<endl;
     }
     if(req.substr(0,3) == "VFX"){
@@ -60,7 +60,7 @@ bool processRequest(VRequest& request, L1List<VRecord>& recList, void* pGData) {
         while(i < recList.getSize() && req.substr(3,req.length() - 3) != recList.at(i).id){
             i++;
         }
-        if(i != recList.getSize()) cout<<recList.at(i).x<<endl;
+        if(i != recList.getSize()) cout<<req<<": "<<recList.at(i).x<<endl;
         else cout<<req<<": Failed"<<endl;
     }
     if(req.substr(0,3) == "VLY"){
@@ -68,7 +68,7 @@ bool processRequest(VRequest& request, L1List<VRecord>& recList, void* pGData) {
         while(i >= 0 && req.substr(3,req.length() - 3) != recList.at(i).id){
             i--;
         }
-        if(i != -1) cout<<recList.at(i).y<<endl;
+        if(i != -1) cout<<req<<": "<<recList.at(i).y<<endl;
         else cout<<req<<": Failed"<<endl;
     }
     if(req.substr(0,3) == "VLX"){
@@ -76,7 +76,7 @@ bool processRequest(VRequest& request, L1List<VRecord>& recList, void* pGData) {
         while(i >= 0 && req.substr(3,req.length() - 3) != recList.at(i).id){
             i--;
         }
-        if(i != -1) cout<<recList.at(i).x<<endl;
+        if(i != -1) cout<<req<<": "<<recList.at(i).x<<endl;
         else cout<<req<<": Failed"<<endl;
     }
     if(req.substr(0,3) == "VFT"){
@@ -87,7 +87,7 @@ bool processRequest(VRequest& request, L1List<VRecord>& recList, void* pGData) {
         if(i != recList.getSize()){
             char* des = new char();
             strPrintTime(des, recList.at(i).timestamp);
-            cout<<des<<endl;
+            cout<<req<<": "<<des<<endl;
         }
         else cout<<req<<": Failed"<<endl;
     }
@@ -99,7 +99,7 @@ bool processRequest(VRequest& request, L1List<VRecord>& recList, void* pGData) {
         if(i != -1){
             char* des = new char();
             strPrintTime(des, recList.at(i).timestamp);
-            cout<<des<<endl;
+            cout<<req<<": "<<des<<endl;
         }
         else cout<<req<<": Failed"<<endl;
     }
@@ -108,7 +108,7 @@ bool processRequest(VRequest& request, L1List<VRecord>& recList, void* pGData) {
         for(int i = 0; i < recList.getSize(); i++){
             if(req.substr(3,req.length() - 3) == recList.at(i).id) k++;
         }
-        if(k != 0) cout<<k<<endl;
+        if(k != 0) cout<<req<<": "<<k<<endl;
         else cout<<req<<": Failed"<<endl;
     }
     if(req.substr(0,3) == "VCL"){
@@ -128,7 +128,7 @@ bool processRequest(VRequest& request, L1List<VRecord>& recList, void* pGData) {
                 y = recList.at(i).y;
             }
         }
-        cout<<k<<endl;
+        cout<<req<<": "<<k<<endl;
     }
     if(req.substr(0,3) == "VMT"){
         int t = 0, i = 0;
@@ -150,7 +150,7 @@ bool processRequest(VRequest& request, L1List<VRecord>& recList, void* pGData) {
                 tmp = recList.at(i).timestamp;
             }
         }
-        cout<<t<<endl;
+        cout<<req<<": "<<t<<endl;
     }
     if(req.substr(0,3) == "VFS"){
         int t = 0, i = 0;
@@ -168,11 +168,11 @@ bool processRequest(VRequest& request, L1List<VRecord>& recList, void* pGData) {
                 break;
             }
         }
-        if(t == 1) cout<<"("<<recList.at(i).x<<" "<<recList.at(i).y<<")"<<endl;
-        else cout<<req<<": Failed"<<endl;
+        if(t == 1) cout<<req<<": "<<"("<<recList.at(i).x<<" "<<recList.at(i).y<<")"<<endl;
+        else cout<<req<<": non stop!"<<endl;
     }
     if(req == "CNR"){
-        cout<<recList.getSize()<<endl;
+        cout<<req<<": "<<recList.getSize()<<endl;
     }
     return true;
 }

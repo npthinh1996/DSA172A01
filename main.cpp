@@ -18,7 +18,7 @@ int main(int narg, char** argv) {
     loadRequests(argv[1], reqList);
     loadVDB(argv[2], recDB);
 
-    cout << fixed << setprecision(12);// preset for floating point numbers
+    cout << fixed << setprecision(6);// preset for floating point numbers
     /// Process events
     if (initVGlobalData(&pGData)) {
         clog << "Successfully initialize data\n";
