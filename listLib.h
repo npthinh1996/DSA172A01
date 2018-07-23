@@ -226,6 +226,4 @@ int L1List<T>::removeLast() {
     return -1;
 }
 
-
-
 #endif //A01_LISTLIB_H
