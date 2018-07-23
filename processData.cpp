@@ -27,6 +27,7 @@ bool processRequest(VRequest& request, L1List<VRecord>& recList, void* pGData) {
     string req = request.code;
     cout<<req<<": ";
 
+    // Tính số lượng thiết bị trong database
     if(req == "CNV"){
         int size = recList.getSize();
         char* arr[size];
@@ -47,9 +48,11 @@ bool processRequest(VRequest& request, L1List<VRecord>& recList, void* pGData) {
         }
         cout<<size<<endl;
     }
+    // Tìm thiết bị được lưu trữ đầu tiên
     if(req == "VFF"){
         cout<<recList.at(0).id<<endl;
     }
+    // Tìm thiết bị được lưu trữ cuối cùng
     if(req == "VFL"){
         int size = recList.getSize();
         char* arr[size];
@@ -70,53 +73,68 @@ bool processRequest(VRequest& request, L1List<VRecord>& recList, void* pGData) {
         }
         cout<<arr[size - 1]<<endl;
     }
+    // Tìm tọa độ y được lưu trữ đầu tiên của thiết bị <ID>
     if(req.substr(0,3) == "VFY"){
         int i = 0;
-        while(i < recList.getSize() && req.substr(3,req.length() - 3) != recList.at(i).id){
+        int size = recList.getSize();
+        string tmp = req.substr(3,req.length() - 3);
+        while(i < size && tmp != recList.at(i).id){
             i++;
         }
-        if(i != recList.getSize()) cout<<recList.at(i).y<<endl;
+        if(i != size) cout<<recList.at(i).y<<endl;
         else cout<<"not found!"<<endl;
     }
+    // Tìm tọa độ x được lưu trữ đầu tiên của thiết bị <ID>
     if(req.substr(0,3) == "VFX"){
         int i = 0;
-        while(i < recList.getSize() && req.substr(3,req.length() - 3) != recList.at(i).id){
+        int size = recList.getSize();
+        string tmp = req.substr(3,req.length() - 3);
+        while(i < size && tmp != recList.at(i).id){
             i++;
         }
-        if(i != recList.getSize()) cout<<recList.at(i).x<<endl;
+        if(i != size) cout<<recList.at(i).x<<endl;
         else cout<<"not found!"<<endl;
     }
+    // Tìm tọa độ y được lưu trữ cuối cùng của thiết bị <ID>
     if(req.substr(0,3) == "VLY"){
         int i = recList.getSize() - 1;
-        while(i >= 0 && req.substr(3,req.length() - 3) != recList.at(i).id){
+        string tmp = req.substr(3,req.length() - 3);
+        while(i >= 0 && tmp != recList.at(i).id){
             i--;
         }
         if(i != -1) cout<<recList.at(i).y<<endl;
         else cout<<"not found!"<<endl;
     }
+    // Tìm tọa độ x được lưu trữ cuối cùng của thiết bị <ID>
     if(req.substr(0,3) == "VLX"){
         int i = recList.getSize() - 1;
-        while(i >= 0 && req.substr(3,req.length() - 3) != recList.at(i).id){
+        string tmp = req.substr(3,req.length() - 3);
+        while(i >= 0 && tmp != recList.at(i).id){
             i--;
         }
         if(i != -1) cout<<recList.at(i).x<<endl;
         else cout<<"not found!"<<endl;
     }
+    // Tìm thời điểm bắt đầu lưu trữ của thiết bị <ID>
     if(req.substr(0,3) == "VFT"){
         int i = 0;
-        while(i < recList.getSize() && req.substr(3,req.length() - 3) != recList.at(i).id){
+        int size = recList.getSize();
+        string tmp = req.substr(3,req.length() - 3);
+        while(i < size && tmp != recList.at(i).id){
             i++;
         }
-        if(i != recList.getSize()){
+        if(i != size){
             char* des = new char();
             strPrintTime(des, recList.at(i).timestamp);
             cout<<des<<endl;
         }
         else cout<<"not found!"<<endl;
     }
+    // Tìm thời điểm kết thúc lưu trữ của thiết bị <ID>
     if(req.substr(0,3) == "VLT"){
         int i = recList.getSize() - 1;
-        while(i >= 0 && req.substr(3,req.length() - 3) != recList.at(i).id){
+        string tmp = req.substr(3,req.length() - 3);
+        while(i >= 0 && tmp != recList.at(i).id){
             i--;
         }
         if(i != -1){
@@ -126,26 +144,32 @@ bool processRequest(VRequest& request, L1List<VRecord>& recList, void* pGData) {
         }
         else cout<<"not found!"<<endl;
     }
+    // Tính số lượng record của thiết bị <ID>
     if(req.substr(0,3) == "VCR"){
         int k = 0;
-        for(int i = 0; i < recList.getSize(); i++){
-            if(req.substr(3,req.length() - 3) == recList.at(i).id) k++;
+        int size = recList.getSize();
+        string tmp = req.substr(3,req.length() - 3);
+        for(int i = 0; i < size; i++){
+            if(tmp == recList.at(i).id) k++;
         }
         if(k != 0) cout<<k<<endl;
         else cout<<"not found!"<<endl;
     }
+    // Tính độ dài hành trình của thiết bị <ID>
     if(req.substr(0,3) == "VCL"){
         int i = 0;
+        int size = recList.getSize();
         double x, y, k = 0;
-        while(i < recList.getSize() && req.substr(3,req.length() - 3) != recList.at(i).id){
+        string tmp = req.substr(3,req.length() - 3);
+        while(i < size && tmp != recList.at(i).id){
             i++;
         }
-        if(i != recList.getSize()){
+        if(i != size){
             x = recList.at(i).x;
             y = recList.at(i).y;
         }
-        for(i++; i < recList.getSize(); i++){
-            if(req.substr(3,req.length() - 3) == recList.at(i).id){
+        for(i++; i < size; i++){
+            if(tmp == recList.at(i).id){
                 k += distanceVR(y, x, recList.at(i).y, recList.at(i).x);
                 x = recList.at(i).x;
                 y = recList.at(i).y;
@@ -153,47 +177,131 @@ bool processRequest(VRequest& request, L1List<VRecord>& recList, void* pGData) {
         }
         cout<<k<<endl;
     }
+    // Tính thời gian di chuyển của thiết bị <ID>
     if(req.substr(0,3) == "VMT"){
         int t = 0, i = 0;
-        time_t tmp;
+        int size = recList.getSize();
+        time_t times;
         double x, y;
-        while(i < recList.getSize() && req.substr(3,req.length() - 3) != recList.at(i).id){
+        string tmp = req.substr(3,req.length() - 3);
+        while(i < size && tmp != recList.at(i).id){
             i++;
         }
-        if(i != recList.getSize()){
+        if(i != size){
             x = recList.at(i).x;
             y = recList.at(i).y;
-            tmp = recList.at(i).timestamp;
+            times = recList.at(i).timestamp;
         }
-        for(i++; i < recList.getSize(); i++){
-            if(req.substr(3,req.length() - 3) == recList.at(i).id){
-                if(x != recList.at(i).x || y != recList.at(i).y) t += recList.at(i).timestamp - tmp;
+        for(i++; i < size; i++){
+            if(tmp == recList.at(i).id){
+                if(distanceVR(y, x, recList.at(i).y, recList.at(i).x) > 0.005){
+                    t += recList.at(i).timestamp - times;
+                }
                 x = recList.at(i).x;
                 y = recList.at(i).y;
-                tmp = recList.at(i).timestamp;
+                times = recList.at(i).timestamp;
             }
         }
         cout<<t<<endl;
     }
+    // Tìm điểm dừng đầu tiên của thiết bị <ID>, xuất (x y)
     if(req.substr(0,3) == "VFS"){
         int t = 0, i = 0;
+        int size = recList.getSize();
         double x, y;
-        while(i < recList.getSize() && req.substr(3,req.length() - 3) != recList.at(i).id){
+        string tmp = req.substr(3,req.length() - 3);
+        while(i < size && tmp != recList.at(i).id){
             i++;
         }
-        if(i != recList.getSize()){
+        if(i != size){
             x = recList.at(i).x;
             y = recList.at(i).y;
         }
-        for(i++; i < recList.getSize(); i++){
-            if(req.substr(3,req.length() - 3) == recList.at(i).id && (x == recList.at(i).x || y == recList.at(i).y)){
+        for(i++; i < size; i++){
+            if(tmp == recList.at(i).id && distanceVR(y, x, recList.at(i).y, recList.at(i).x) < 0.005){
                 t = 1;
                 break;
             }
         }
-        if(t == 1) cout<<"("<<recList.at(i).x<<" "<<recList.at(i).y<<")"<<endl;
+        if(t == 1) cout<<"("<<recList.at(i).x<<", "<<recList.at(i).y<<")"<<endl;
         else cout<<"non stop!"<<endl;
     }
+    // Tìm điểm dừng cuối cùng của thiết bị <ID>
+    if(req.substr(0,3) == "VLS"){
+        int t = 0;
+        int i = recList.getSize() - 1;
+        double x, y;
+        string tmp = req.substr(3,req.length() - 3);
+        while(i >= 0 && tmp != recList.at(i).id){
+            i--;
+        }
+        if(i != -1){
+            x = recList.at(i).x;
+            y = recList.at(i).y;
+        }
+        for(i--; i >= 0; i--){
+            if(tmp == recList.at(i).id && distanceVR(y, x, recList.at(i).y, recList.at(i).x) < 0.005){
+                t = 1;
+                break;
+            }
+        }
+        if(t == 1) cout<<"("<<recList.at(i).x<<", "<<recList.at(i).y<<")"<<endl;
+        else cout<<"non stop!"<<endl;
+    }
+    // Tìm thời gian dừng lâu nhất của thiết bị <ID>
+    if(req.substr(0,3) == "VMS"){
+        int t = 0, i = 0, max = 0;
+        int size = recList.getSize();
+        time_t times;
+        double x, y;
+        string tmp = req.substr(3,req.length() - 3);
+        while(i < size && tmp != recList.at(i).id){
+            i++;
+        }
+        if(i != size){
+            x = recList.at(i).x;
+            y = recList.at(i).y;
+            times = recList.at(i).timestamp;
+        }
+        for(i++; i < size; i++){
+            if(tmp == recList.at(i).id){
+                if(distanceVR(y, x, recList.at(i).y, recList.at(i).x) < 0.005){
+                    t = recList.at(i).timestamp - times;
+                    if(t > max) max = t;
+                }
+                x = recList.at(i).x;
+                y = recList.at(i).y;
+                times = recList.at(i).timestamp;
+            }
+        }
+        if(max != 0) cout<<t<<endl;
+        else cout<<"non stop!"<<endl;
+    }
+    // Tìm khoảng cách trung bình giữa 2 lần thu thập dữ liệu của thiết bị <ID>
+    if(req.substr(0,3) == "VAS"){
+        int i = 0, j = 0;
+        int size = recList.getSize();
+        double x, y, k = 0;
+        string tmp = req.substr(3,req.length() - 3);
+        while(i < size && tmp != recList.at(i).id){
+            i++;
+        }
+        if(i != size){
+            x = recList.at(i).x;
+            y = recList.at(i).y;
+        }
+        for(i++; i < size; i++){
+            if(tmp == recList.at(i).id){
+                k += distanceVR(y, x, recList.at(i).y, recList.at(i).x);
+                x = recList.at(i).x;
+                y = recList.at(i).y;
+                j++;
+            }
+        }
+        if(j != 0) cout<<(k/j)*1000<<" meter"<<endl;
+        else cout<<0<<endl;
+    }
+    // Tính số lượng record trong database
     if(req == "CNR"){
         cout<<recList.getSize()<<endl;
     }
