@@ -305,5 +305,69 @@ bool processRequest(VRequest& request, L1List<VRecord>& recList, void* pGData) {
     if(req == "CNR"){
         cout<<recList.getSize()<<endl;
     }
+    // Tìm thiết bị có số lượng record nhiều nhất
+    if(req == "MRV"){
+        int size = recList.getSize();
+        char* arr[size];
+
+        for(int i = 0; i < size; i++){
+            arr[i] = recList.at(i).id;
+        }
+        
+        char* id = arr[0];
+        int max = 0;
+        for(int i = 0; i < size - 1; i++){
+            int idx = 0;
+            for(int j = i + 1; j < size; j++){
+                if(strcmp(arr[i],arr[j]) == 0){
+                    idx++;
+                    for(int k = j; k < size; k++){
+                        arr[k] = arr[k+1];
+                    }
+                    size--;
+                    j--;
+                }
+            }
+            if(idx > max){
+                max = idx;
+                id = arr[i];
+            }
+        }
+        cout<<id<<endl;
+    }
+    // Tìm thiết bị có số lượng record ít nhất
+    if(req == "LRV"){
+        int k = 0, idx = 0;
+        int size = recList.getSize();
+        while(k != 1 && idx < size){
+            string tmp = recList.at(idx).id;
+            k = 0;
+            for(int i = idx; i < size; i++){
+                if(tmp == recList.at(i).id) k++;
+            }
+            idx++;
+        }
+        cout<<recList.at(idx - 1).id<<endl;
+    }
+    // Xóa các record của thiết bị <ID>
+    if(req.substr(0,3) == "RVR"){
+        int i = 0;
+        int size = recList.getSize();
+        string tmp = req.substr(3,req.length() - 3);
+        while(i < size && tmp != recList.at(i).id){
+            i++;
+        }
+        if(i != size){
+            recList.remove(i);
+            size = recList.getSize();
+            for(i; i < size; i++){
+                if(tmp == recList.at(i).id){
+                    recList.remove(i);
+                    size = recList.getSize();
+                }
+            }
+            cout<<"success!"<<endl;
+        } else cout<<"not found!"<<endl;
+    }
     return true;
 }

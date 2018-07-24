@@ -116,6 +116,7 @@ public:
         pPre->pNext = pCur->pNext;
         delete pCur;
         pCur = NULL;
+        _size--;
         return 0;
     }
 
