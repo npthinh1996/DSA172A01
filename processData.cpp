@@ -274,7 +274,7 @@ bool processRequest(VRequest& request, L1List<VRecord>& recList, void* pGData) {
                 times = recList.at(i).timestamp;
             }
         }
-        if(max != 0) cout<<t<<endl;
+        if(max != 0) cout<<max<<endl;
         else cout<<"non stop!"<<endl;
     }
     // Tìm khoảng cách trung bình giữa 2 lần thu thập dữ liệu của thiết bị <ID>
