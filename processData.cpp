@@ -301,6 +301,9 @@ bool processRequest(VRequest& request, L1List<VRecord>& recList, void* pGData) {
         if(j != 0) cout<<(k/j)*1000<<" meter"<<endl;
         else cout<<0<<endl;
     }
+    // TODO: Tìm thời lượng dừng lâu nhất của tất cả các thiết bị
+    if(req == "MST"){
+    }
     // Tính số lượng record trong database
     if(req == "CNR"){
         cout<<recList.getSize()<<endl;
@@ -348,6 +351,24 @@ bool processRequest(VRequest& request, L1List<VRecord>& recList, void* pGData) {
             idx++;
         }
         cout<<recList.at(idx - 1).id<<endl;
+    }
+    // TODO: Tìm thiết bị có tổng thời gian di chuyển lâu nhất
+    if(req == "MTV"){
+    }
+    // TODO: Tìm thiết bị có vận tốc di chuyển trung bình nhanh nhất
+    if(req == "MVV"){
+    }
+    // TODO: Tính số lượng thiết bị luôn di chuyển và không dừng
+    if(req == "CNS"){
+    }
+    // TODO: Tính khoảng cách trung bình khi thu thập dữ liệu của tất cả các thiết bị
+    if(req == "CAS"){
+    }
+    // TODO: Tìm thiết bị có hành trình dài nhất
+    if(req == "LPV"){
+    }
+    // TODO: Tìm thiết bị có hành trình ngắn nhất
+    if(req == "SPV"){
     }
     // Xóa các record của thiết bị <ID>
     if(req.substr(0,3) == "RVR"){
