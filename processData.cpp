@@ -244,12 +244,27 @@ bool processRequest(VRequest& request, L1List<VRecord>& recList, void* pGData) {
             y = recList.at(i).y;
         }
         for(i--; i >= 0; i--){
-            if(tmp == recList.at(i).id && distanceVR(y, x, recList.at(i).y, recList.at(i).x) < 0.005){
-                t = 1;
-                break;
+            if(tmp == recList.at(i).id){
+                if(distanceVR(y, x, recList.at(i).y, recList.at(i).x) < 0.005){
+                    x = recList.at(i).x;
+                    y = recList.at(i).y;
+                    for(i--; i >= 0; i--){
+                        if(tmp == recList.at(i).id){
+                            if(distanceVR(y, x, recList.at(i).y, recList.at(i).x) > 0.005){
+                                break;
+                            }
+                            x = recList.at(i).x;
+                            y = recList.at(i).y;
+                        }
+                    }
+                    t = 1;
+                    break;
+                }
+                x = recList.at(i).x;
+                y = recList.at(i).y;
             }
         }
-        if(t == 1) cout<<"("<<recList.at(i).x<<", "<<recList.at(i).y<<")"<<endl;
+        if(t == 1) cout<<"("<<x<<", "<<y<<")"<<endl;
         else cout<<"non stop!"<<endl;
     }
     // Tìm thời gian dừng lâu nhất của thiết bị <ID>
