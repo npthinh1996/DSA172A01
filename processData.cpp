@@ -29,24 +29,25 @@ bool processRequest(VRequest& request, L1List<VRecord>& recList, void* pGData) {
 
     // Tính số lượng thiết bị trong database
     if(req == "CNV"){
+        int idx, s = 0;
         int size = recList.getSize();
         char* arr[size];
 
         for(int i = 0; i < size; i++){
-            arr[i] = recList.at(i).id;
-        }
-        for(int i = 0; i < size - 1; i++){
-            for(int j = i + 1; j < size; j++){
-                if(strcmp(arr[i],arr[j]) == 0){
-                    for(int k = j; k < size; k++){
-                        arr[k] = arr[k+1];
-                    }
-                    size--;
-                    j--;
+            idx = 0;
+            char* tmp = recList.at(i).id;
+            for(int j = 0; j < s; j++){
+                if(strcmp(arr[j], tmp) == 0){
+                    break;
                 }
+                idx++;
+            }
+            if(idx == s){
+                arr[s] = tmp;
+                s++;
             }
         }
-        cout<<size<<endl;
+        cout<<s<<endl;
     }
     // Tìm thiết bị được lưu trữ đầu tiên
     if(req == "VFF"){
@@ -329,47 +330,65 @@ bool processRequest(VRequest& request, L1List<VRecord>& recList, void* pGData) {
     }
     // Tìm thiết bị có số lượng record nhiều nhất
     if(req == "MRV"){
+        int idx, s = 0, max = 0;
         int size = recList.getSize();
         char* arr[size];
+        int count[size];
 
         for(int i = 0; i < size; i++){
-            arr[i] = recList.at(i).id;
-        }
-        
-        char* id = arr[0];
-        int max = 0;
-        for(int i = 0; i < size - 1; i++){
-            int idx = 0;
-            for(int j = i + 1; j < size; j++){
-                if(strcmp(arr[i],arr[j]) == 0){
-                    idx++;
-                    for(int k = j; k < size; k++){
-                        arr[k] = arr[k+1];
-                    }
-                    size--;
-                    j--;
+            idx = 0;
+            char* tmp = recList.at(i).id;
+            for(int j = 0; j < s; j++){
+                if(strcmp(arr[j], tmp) == 0){
+                    count[j] += 1;
+                    break;
                 }
+                idx++;
             }
-            if(idx > max){
-                max = idx;
-                id = arr[i];
+            if(idx == s){
+                arr[s] = tmp;
+                count[s] = 1;
+                s++;
             }
         }
-        cout<<id<<endl;
+        for(int i = 0; i < s; i++){
+            if(max < count[i]){
+                max = count[i];
+                idx = i;
+            }
+        }
+        cout<<arr[idx]<<endl;
     }
     // Tìm thiết bị có số lượng record ít nhất
     if(req == "LRV"){
-        int k = 0, idx = 0;
+        int idx, s = 0, max = 0;
         int size = recList.getSize();
-        while(k != 1 && idx < size){
-            string tmp = recList.at(idx).id;
-            k = 0;
-            for(int i = idx; i < size; i++){
-                if(tmp == recList.at(i).id) k++;
+        char* arr[size];
+        int count[size];
+
+        for(int i = 0; i < size; i++){
+            idx = 0;
+            char* tmp = recList.at(i).id;
+            for(int j = 0; j < s; j++){
+                if(strcmp(arr[j], tmp) == 0){
+                    count[j] += 1;
+                    break;
+                }
+                idx++;
             }
-            idx++;
+            if(idx == s){
+                arr[s] = tmp;
+                count[s] = 1;
+                s++;
+            }
         }
-        cout<<recList.at(idx - 1).id<<endl;
+        for(int i = 0; i < s; i++){
+            if(count[i] == 1){
+                idx = i;
+                break;
+            }
+        }
+        cout<<arr[idx]<<endl;
     }
     // TODO: Tìm thiết bị có tổng thời gian di chuyển lâu nhất
     if(req == "MTV"){
