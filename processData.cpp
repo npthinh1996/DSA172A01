@@ -55,24 +55,25 @@ bool processRequest(VRequest& request, L1List<VRecord>& recList, void* pGData) {
     }
     // Tìm thiết bị được lưu trữ cuối cùng
     if(req == "VFL"){
+        int idx, s = 0;
         int size = recList.getSize();
         char* arr[size];
 
         for(int i = 0; i < size; i++){
-            arr[i] = recList.at(i).id;
-        }
-        for(int i = 0; i < size - 1; i++){
-            for(int j = i + 1; j < size; j++){
-                if(strcmp(arr[i],arr[j]) == 0){
-                    for(int k = j; k < size; k++){
-                        arr[k] = arr[k+1];
-                    }
-                    size--;
-                    j--;
+            idx = 0;
+            char* tmp = recList.at(i).id;
+            for(int j = 0; j < s; j++){
+                if(strcmp(arr[j], tmp) == 0){
+                    break;
                 }
+                idx++;
+            }
+            if(idx == s){
+                arr[s] = tmp;
+                s++;
             }
         }
-        cout<<arr[size - 1]<<endl;
+        cout<<arr[s-1]<<endl;
     }
     // Tìm tọa độ y được lưu trữ đầu tiên của thiết bị <ID>
     if(req.substr(0,3) == "VFY"){
@@ -249,15 +250,6 @@ bool processRequest(VRequest& request, L1List<VRecord>& recList, void* pGData) {
                 if(distanceVR(y, x, recList.at(i).y, recList.at(i).x) < 0.005){
                     x = recList.at(i).x;
                     y = recList.at(i).y;
-                    for(i--; i >= 0; i--){
-                        if(tmp == recList.at(i).id){
-                            if(distanceVR(y, x, recList.at(i).y, recList.at(i).x) > 0.005){
-                                break;
-                            }
-                            x = recList.at(i).x;
-                            y = recList.at(i).y;
-                        }
-                    }
                     t = 1;
                     break;
                 }
